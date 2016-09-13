@@ -51,7 +51,7 @@ class DoubanMovieSpider(scrapy.Spider):
 
     def parse(self, response):
         # assert response.css(".nav-user-account").extract(), "not login"
-        inspect_response(response, self)
+        # inspect_response(response, self)
     
         time.sleep(0.5)
         
@@ -62,9 +62,8 @@ class DoubanMovieSpider(scrapy.Spider):
             item['url'] = url
             print url
             
-            time.sleep(0.5)
             
-            request = scrapy.Request(item['url'], callback=self.parse_Content)
+            request = scrapy.Request(item['url'], callback=self.parse_Content, headers=self.headers)
             request.meta['item'] = item
             
             yield request
@@ -75,8 +74,9 @@ class DoubanMovieSpider(scrapy.Spider):
         
         
     def parse_Content(self, response):
+        time.sleep(0.5)
         
-        inspect_response(response, self)
+        # inspect_response(response, self)
         
         item = response.meta['item']
 
