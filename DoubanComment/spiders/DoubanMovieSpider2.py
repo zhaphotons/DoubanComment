@@ -29,9 +29,9 @@ class DoubanMovieSpider(scrapy.Spider):
 
     def login(self, response):
         formdata={
-             "redir": "https://movie.douban.com/subject/22939161/comments?start=0&limit=20&sort=new_score",
-             "form_email": "ravna@qq.com",
-             "form_password": "huapanda2013",
+             "redir": "https://movie.douban.com/subject/2131940/comments?start=0&limit=20&sort=new_score",
+              "form_email": "zhaphotons@gmail.com",
+             "form_password": "900319lgr",
              "login": u"登录",
          }
 
@@ -51,6 +51,8 @@ class DoubanMovieSpider(scrapy.Spider):
 
     def parse(self, response):
         # assert response.css(".nav-user-account").extract(), "not login"
+#        inspect_response(response, self)
+    
         time.sleep(2)
 
         start, limit = re.search("start=(\d+)&limit=(\d+)",
