@@ -51,7 +51,8 @@ class DoubanMovieSpider(scrapy.Spider):
 
     def parse(self, response):
         # assert response.css(".nav-user-account").extract(), "not login"
-#        inspect_response(response, self)
+
+        # inspect_response(response, self)
     
         time.sleep(0.5)
         
@@ -59,6 +60,7 @@ class DoubanMovieSpider(scrapy.Spider):
 
         for url in urls:
             item = {}
+
 
 #            time.sleep(0.5)
             
@@ -73,7 +75,9 @@ class DoubanMovieSpider(scrapy.Spider):
         
         
     def parse_Content(self, response):
+        time.sleep(0.5)
         
+
 #        time.sleep(1.0)
 #        inspect_response(response, self)
         
