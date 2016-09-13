@@ -51,20 +51,37 @@ class DoubanMovieSpider(scrapy.Spider):
 
     def parse(self, response):
         # assert response.css(".nav-user-account").extract(), "not login"
-#        inspect_response(response, self)
+        inspect_response(response, self)
     
         time.sleep(0.5)
+        
+        urls = response.xpath('//div[@class="middle"]//h3/a/@href').extract()
 
-        start, = re.search("start=(\d+)",
-                                 response.url).groups()
-        with codecs.open("%s.html" % start, "w",
-                         encoding="utf-8") as o:
-            o.write(response.text)
-
+        for url in urls:
+            item = {}
+            item['url'] = url
+            print url
+            
+            time.sleep(0.5)
+            
+            request = scrapy.Request(item['url'], callback=self.parse_Content)
+            request.meta['item'] = item
+            
+            yield request
+       
         for href in response.xpath('//div[@class="paginator"]/span[@class="next"]/link/@href').extract():
             full_url = response.urljoin(href)
-            yield scrapy.Request(
-                full_url,
-                headers=self.headers,
-            )
+            yield scrapy.Request(full_url, headers=self.headers, callback=self.parse)
+        
+        
+    def parse_Content(self, response):
+        
+        inspect_response(response, self)
+        
+        item = response.meta['item']
+
+        pars = response.xpath('//p//text()').extract()
+        
+        yield item
+
 
