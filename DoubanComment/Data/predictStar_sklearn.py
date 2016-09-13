@@ -58,10 +58,14 @@ def goodRatio(data):
 
 #%%
 #Data
-MovieName = 'Star_Trek_Beyong'
-rawData = pd.read_csv(MovieName+'/'+'tmp.csv')
+MovieName = 'WeiWei.csv'
+rawData = pd.read_csv(MovieName)
+rawData.comment = rawData.comment.apply(str)
+rawData.rating = rawData.rating.apply(str)
+#rawData = np.array(rawData)
 rawData = np.array(rawData[rawData.rating!='None'])
 
+#%%
 data = []
 for item in rawData:
     comment = item[0]
@@ -85,7 +89,7 @@ word_features = [item[0] for item in all_words_freq.most_common(3000)[5:]]
 X = np.array([generateFeature(comment, word_features) for (comment,sentiment) in data])
 y = [sentiment for (comment, sentiment) in data]
 
-testNum = 1000
+testNum = 100
 X_train, X_test = X[testNum:], X[:testNum]
 y_train, y_test = y[testNum:], y[:testNum]
 
