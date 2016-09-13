@@ -48,12 +48,14 @@ def goodRatio(data):
 
 #%%
 #Data
-MovieName = 'Star_Trek_Beyong'
-rawData = pd.read_csv(MovieName+'/'+'tmp.csv')
+MovieName = 'JiShengShou.csv'
+rawData = pd.read_csv(MovieName)
+rawData.comment = rawData.comment.apply(str)
+rawData.rating = rawData.rating.apply(str)
 rawData = np.array(rawData[rawData.rating!='None'])
 
 data = []
-for item in rawData:
+for item in rawData[:8000]:
     comment = item[0]
     rating = int(item[1])
     
@@ -73,7 +75,7 @@ word_features = [item[0] for item in all_words_freq.most_common(3000)[5:]]
 #%%
 featuresets = [(generateFeature(comment), sentiment) for (comment,sentiment) in data]
 
-train_set, test_set = featuresets[500:], featuresets[:500]
+train_set, test_set = featuresets[1000:], featuresets[:1000]
 
 classifier = nltk.NaiveBayesClassifier.train(train_set)
 
